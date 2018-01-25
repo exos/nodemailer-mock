@@ -87,6 +87,11 @@ const NodemailerMock = (function NodemailerMock() {
         // use the real nodemailer transport to verify
         return transport.verify(callback);
       },
+
+      on: (name) => {
+        debug('Subscribe to event' + name);
+      },
+
       // the options this transport was created with
       mock: {
         options,
