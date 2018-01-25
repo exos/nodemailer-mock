@@ -17,6 +17,9 @@ const NodemailerMock = (function NodemailerMock() {
   // Should the callback be a success or failure?
   let shouldFail = false;
   let shouldFailOnce = false;
+  // Poll
+  let shouldAreIdle = true;
+  
 
   // Determine if the test should return success or failure
   const determineResponseSuccess = function determineResponseSuccess() {
@@ -93,7 +96,7 @@ const NodemailerMock = (function NodemailerMock() {
       },
 
       isIdle: () => {
-        return true;
+          return shouldAreIdle;
       },
 
       // the options this transport was created with
@@ -132,6 +135,14 @@ const NodemailerMock = (function NodemailerMock() {
       },
 
       /**
+       * determine if transport.isIdle() should be true of false
+       * @param {Boolean} isIdle
+       */
+      shouldAreIdle: (isIdle) => {
+        shouldAreIdle = isIdle;
+      },
+
+      /**
        * set the response messages for successes
        * @param  {Mixed} response
        */
@@ -159,6 +170,7 @@ const NodemailerMock = (function NodemailerMock() {
       reset: () => {
         sentMail = [];
         shouldFail = shouldFailOnce = false;
+        shouldAreIdle = true;
         successResponse = messages.success_response;
         failResponse = messages.fail_response;
       },
